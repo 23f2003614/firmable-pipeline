@@ -1,18 +1,18 @@
 """
-Crawler #7: CARF International -- Accredited Providers
-Source  : https://carf.org/find-provider/
-Endpoint: https://carf.org/wp-admin/admin-ajax.php
-          ?action=store_search&lat=LAT&lng=LNG&max_results=25&search_radius=500
+Crawler 07 — CARF International Accredited Providers
+Source   : https://carf.org/wp-admin/admin-ajax.php (WordPress store locator)
+Records  : ~6,080 | US
 
-Method  : Pure requests (curl_cffi for Chrome TLS fingerprint).
-          CARF uses a WordPress Store Locator plugin returning JSON.
-          We query a 40-point grid at 500-mile radius, deduplicate by provider_id.
+Fetch    : curl_cffi impersonates Chrome's TLS fingerprint to bypass
+           server-side bot detection. Queries a 40-point US geographic
+           grid at 500-mile radius per point.
 
+Parse    : JSON per grid point. Extracts provider_id, accreditation areas,
+           program types, population served. Deduplicates by provider_id
+           across overlapping grid circles.
 
-Records : ~8000 accredited US providers
-Niche   : provider_id, accreditation_area, service_domain, program_types,
-          population_served, accreditation_status, is_administrative_only,
-          program_count, latitude, longitude
+           TLS fingerprinting bypass — the server checks the SSL handshake
+           itself, not just headers. curl_cffi matches Chrome's exact stack.
 """
 
 import sys

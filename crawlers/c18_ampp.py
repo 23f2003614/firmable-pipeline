@@ -1,21 +1,17 @@
 """
-Crawler #18 — AMPP QP Accredited Contractors (US)
-Source : https://core.ampp.org/Accreditations/Search
-Dataset: ampp_qp_contractors
+Crawler 18 — AMPP QP Accredited Contractors
+Source   : https://core.ampp.org/Accreditations/Search
+Records  : ~483 | US
 
-Strategy:
-  Query the API once per accreditation type (all 15 types visible on the
-  search page) for country = "United States".  This guarantees we capture
-  every company even if the blank-country / all-types query misses any.
-  Deduplication is done in-memory by companyName+state before passing to
-  BaseCrawler's hash-based dedup, so no company appears twice.
+Fetch    : Queries the AMPP API once per accreditation type — all 15
+           types (QP1-QP9, QS1, QN1, AS-1 through AS-3 ITO). A single
+           all-types query silently misses single-cert companies.
 
-Full accreditation type list :
-  QP1, QP2, QP3, QP5, QP6, QP7, QP8, QP9,
-  QS1, QN1,
-  AS-1 Shop, AS-1 Field, AS-2, AS-3, AS-3 ITO
+Parse    : Joins all accreditation types per company as comma-separated
+           list. Deduplicates by companyName + state before hash dedup.
 
-
+           15 separate queries guarantee zero gaps — defensive completeness
+           for a niche with virtually no other structured source.
 """
 
 import re

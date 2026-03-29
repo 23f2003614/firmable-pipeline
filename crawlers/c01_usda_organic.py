@@ -1,18 +1,17 @@
 """
-Crawler #1: USDA Organic Certified Operations
-Source  : https://organic.ams.usda.gov/Integrity/Reports/DataHistory.aspx
-Format  : "Search Results Export Format" monthly XLS snapshot
-Records : ~30,000–34,000 US-only certified operations
+Crawler 01 — USDA Certified Organic Operators
+Source   : https://organic.ams.usda.gov/Integrity/Reports/DataHistory.aspx
+Records  : ~33,700 | US only
 
-Always stays current — every run:
-  1. Selenium loads the DataHistory page (JS-rendered Angular SPA)
-  2. Scrapes ALL links under "Search Results Export Format" section
-  3. Sorts by year+month -> picks the MOST RECENT file automatically
-  4. Downloads and parses it
+Fetch    : Selenium opens a JS-rendered Angular SPA, scrapes all monthly
+           export links, sorts by year+month, downloads the most recent
+           XLS/ZIP automatically — no hardcoded URLs.
 
-When USDA publishes April, May etc. -> crawler picks it up automatically.
-No hardcoded URLs. No manual updates needed.
-Runtime: ~3–5 minutes
+Parse    : Reads Excel rows, filters to US states only, maps USDA column
+           names to schema fields (company_name, address, cert fields).
+           
+           Self-updating — when USDA publishes a new monthly file, this
+           crawler picks it up with zero code changes.
 """
 
 import sys, os, re, csv, io, time, argparse, zipfile

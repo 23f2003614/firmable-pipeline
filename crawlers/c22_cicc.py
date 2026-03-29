@@ -1,24 +1,19 @@
 """
-Crawler #22 — CICC Registered Immigration Consultants (Canada)
-v12 — Checkpoint/resume system added.
+Crawler 22 — CICC Registered Immigration Consultants (Canada)
+Source   : https://college-ic.ca
+Records  : ~16,706 | Canada
 
-Phase 1: Crawls RCIC + RISIA search pages (Selenium, paginated).
-         Saves raw pages to data/cicc_checkpoint/pages.pkl after each register.
-         On restart, skips Phase 1 entirely if checkpoint exists.
+Fetch    : Phase 1 — Selenium paginates through RCIC + RISIA registers.
+           Saves raw HTML to pages.pkl checkpoint after each batch.
+           On restart, Phase 1 is skipped entirely if checkpoint exists.
+           Phase 2 — fetches each consultant's profile page for enrichment.
 
-Phase 2: Profile enrichment — fetches each consultant's detail page.
-         Progress is saved to data/cicc_checkpoint/enriched.jsonl every
-         CHECKPOINT_EVERY records. On restart, already-enriched registration
-         numbers are loaded and skipped, so work resumes from where it stopped.
+Parse    : Phase 1 extracts basic info + profile URLs. Phase 2 extracts
+           registration number, languages, authorized-to-appear status,
+           practice areas from individual profile pages.
 
-Checkpoint files:
-  data/cicc_checkpoint/pages.pkl       — pickled list of (lic_type, html) tuples
-  data/cicc_checkpoint/enriched.jsonl  — one JSON record per line (append-only)
-
-To force a full re-crawl, delete the data/cicc_checkpoint/ directory.
-
-Dedup is by (registration_number + licence_type) — avoids false duplicates
-where the same consultant runs multiple firms.
+           Checkpoint/resume system — a crash at page 800 of 2,000
+           restarts from page 800, not page 1. Essential for long crawls.
 """
 
 import time

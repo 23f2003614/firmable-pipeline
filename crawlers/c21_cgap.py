@@ -1,12 +1,18 @@
 """
-Crawler #21 — CanadaGAP Certified Operations (Canada)
-Source : https://www.canadagap.ca/certification/certified-companies/
-Data   : Monthly consolidated PDF published by CanadaGAP (covers all 6 accredited
-         certification bodies: NSF, MSVS, TSLC, BNQ, Control Union, dicentra)
+Crawler 21 — CanadaGAP Certified Operations (Canada)
+Source   : https://www.canadagap.ca/certification/certified-companies/
+Records  : ~1,890 | Canada
 
+Fetch    : Auto-discovers the latest monthly PDF URL from the CanadaGAP
+           website — no hardcoded links. Downloads on every run.
 
+Parse    : Extracts text from PDF. Consistent tabular layout enables
+           reliable row parsing — company name, certification body,
+           province, commodity group.
+
+           Self-updating like C01 USDA — always fetches current month's
+           data with zero code changes when a new file is published.
 """
-
 import re
 import io
 import os

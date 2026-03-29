@@ -1,9 +1,17 @@
 """
-Crawler #17 — Associated General Contractors of America (AGC)
-Source: Multiple public AGC chapter member directories across US states
-Coverage: MA, TX (Houston), CO, AK, IA chapters — all publicly accessible
+Crawler 17 — AGC Associated General Contractors
+Source   : Multiple public AGC chapter directories (MA, TX, CO, AK, IA)
+Records  : ~1,828 | US
 
+Fetch    : Crawls 5 AGC chapter websites simultaneously using threading.
+           Each chapter has its own HTML structure — handled per-chapter
+           inside crawl().
 
+Parse    : parse() returns raw_data as-is — crawl() already produces
+           clean structured dicts for each chapter's unique HTML format.
+
+           Multi-site parallel crawl — 5 different websites, 5 different
+           formats, unified into one schema in a single run.
 """
 
 import re

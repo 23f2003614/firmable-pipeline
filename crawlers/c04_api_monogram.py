@@ -1,20 +1,17 @@
 """
-Crawler #4: API Monogram Composite List  
-Source: https://mycerts.api.org/Search/CompositeSearch
+Crawler 04 — API Monogram Licensed Manufacturers
+Source   : https://mycerts.api.org/Search/CompositeSearch
+Records  : ~7,560 | US only
 
+Fetch    : POST requests to the API.org certification search, paginating
+           through all results. Filters to country = "United States".
 
-  - FILTER: Only keeps records where country = "United States" 
-  - Niche fields:
-      * api_spec_number     — spec prefix parsed from cert number (e.g. "6A", "5CT", "Q1")
-      * spec_full_name      — human-readable spec title (e.g. "Wellhead & Christmas Tree Equipment")
-      * product_scope       — equipment/product category derived from spec code
-      * cert_program        — Monogram / Q1 / Q2 / ISO / 18LCM
-      * is_active           — 1/0 flag for quick filtering
-      * state_full          — full US state or Canadian province name
-      * facility_type       — Manufacturing / Service / Both (per spec)
-      * industry_segment    — Upstream / Midstream / Downstream / General
-  - Dedup key: certificationNumber (globally unique — no false dupes)
-  
+Parse    : Extracts spec code prefix from cert number (e.g. "6A", "5CT"),
+           looks it up in a built-in spec map to resolve full name, product
+           scope, industry segment, and facility type.
+
+           The spec lookup table maps 40+ cert codes to human-readable
+           B2B context — "6A" becomes "Wellhead Equipment, Upstream, Mfg."
 """
 
 import sys, os, time, re

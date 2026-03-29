@@ -1,9 +1,16 @@
 """
-Crawler #6: Brewers Association Craft Breweries (US only)
-Source : https://www.brewersassociation.org/directories/breweries/
-Data   : Single JSON endpoint (~12k records)
+Crawler 06 — Brewers Association Craft Breweries
+Source   : https://www.brewersassociation.org/directories/breweries/
+Records  : ~11,000 | US only
 
-}
+Fetch    : Single GET request to a public JSON endpoint — all ~12k
+           breweries returned in one response. No pagination, no auth.
+
+Parse    : Loops JSON array, filters to US state codes, extracts brewery
+           type, membership status, GPS coordinates, is_craft_brewery flag.
+
+           Simplest crawler in the project — one request, clean JSON,
+           done in under 10 seconds. Best candidate for a live demo.
 """
 
 import sys, os, re, time, json

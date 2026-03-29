@@ -1,22 +1,16 @@
 """
-Crawler #2: SEC Registered Investment Advisers (IAPD) — US-ONLY
-================================================================
-Runtime: ~2-3 minutes (single ZIP download, zero API calls)
+Crawler 02 — SEC Registered Investment Advisers (IAPD)
+Source   : https://adviserinfo.sec.gov
+Records  : ~12,700 | US only
 
-The SEC bulk XLSX contains the FULL ADV Part 1 form data.
-Columns are named by ADV section numbers (5I(1), 5B(1) etc).
-We decode these directly — no API calls, no waiting.
+Fetch    : Downloads a single bulk ZIP from the SEC website — contains
+           the full IAPD dataset as one XLSX. No API calls, no pagination.
 
-Fields extracted:
-  - AUM total, discretionary, non-discretionary       (Item 5I)
-  - Total employees, advisory employees               (Item 5B)
-  - Number of accounts, clients                       (Items 5C, 5D, 5J)
-  - Advisory services (9 types)                       (Item 6A)
-  - Compensation arrangements (7 types)               (Item 5F)
-  - Adviser type, umbrella registration, SEC region
-  - CCO name, CCO email, amendment date
+Parse    : Reads the XLSX, decodes SEC's cryptic column names (e.g. "5I(1)"
+           = total AUM) into readable fields. Filters to US-only firms.
 
-Source: https://adviserinfo.sec.gov/
+            One download replaces thousands of API calls. Column decoding
+           unlocks AUM, employee count, and service types from raw ADV data.
 """
 
 import sys, os, re, zipfile, csv, io

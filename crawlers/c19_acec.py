@@ -1,10 +1,17 @@
 """
-Crawler #19 - ACEC Multi-State Engineering Firms
-=================================================
-Speed:  135 requests total (5 states x 27 letters), parallel fetch.
-        Runs in ~2-3 minutes. Zero detail-page visits.
-        All data extracted from listing cards directly.
+Crawler 19 — ACEC Engineering Consulting Firms
+Source   : Multiple ACEC state chapter member directories
+Records  : ~851 | US (5 states)
 
+Fetch    : 135 parallel HTTP requests — 5 state chapter directories ×
+           27 alphabet letters each. All requests fire simultaneously.
+
+Parse    : parse() returns raw_data directly — crawl() already builds
+           clean structured dicts from listing card HTML. No detail
+           page visits needed.
+
+           135 parallel requests complete in the time of one sequential
+           request — threading makes breadth-first crawling fast.
 """
 
 import re

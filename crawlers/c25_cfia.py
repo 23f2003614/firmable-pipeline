@@ -1,11 +1,16 @@
 """
-Crawler #25: CFIA — Canadian Food Inspection Agency Food Licence Registry
-Source  : https://apps.inspection.canada.ca/webapps/foodlicenceregistry/en/
-          (public government registry, no login required)
+Crawler 25 — CFIA Food Establishment Licences (Canada)
+Source   : https://apps.inspection.canada.ca/webapps/foodlicenceregistry/
+Records  : ~18,815 | Canada
 
-Method  : Direct bulk CSV download from the registry page 
+Fetch    : curl_cffi (Chrome fingerprint) bypasses browser check on the
+           CFIA bulk CSV endpoint. Downloads full dataset in one shot.
 
-Records : ~18,000+ federally licensed Canadian food businesses
+Parse    : Reads all CSV rows, cleans and maps fields. Extracts licence
+           number, type, establishment name, province, commodity categories.
+
+           Even a government CSV bulk download checks for browser-like
+           requests — curl_cffi handles what plain requests cannot.
 """
 
 import sys, os, io

@@ -1,14 +1,17 @@
 """
-Crawler #15 — National Association of the Remodeling Industry (NARI)
-Source  : https://remodelingdoneright.nari.org/find-a-remodeler-search/
-Dataset : nari_remodelers
-Coverage: United States
+Crawler 15 — NARI Certified Remodelers
+Source   : https://remodelingdoneright.nari.org/find-a-remodeler-search/
+Records  : ~2,423 | US
 
-Strategy:
-  Sweep 61 seed (zip, lat, lng) anchors — one per US state + extras
-  for large metros — with miles=50 and pageSize=100.
-  De-dup by organizationId. No detail-page enrichment needed;
-  the search API already returns all available fields.
+Fetch    : NARI search API with 61 seed anchors — one per US state plus
+           extras for dense metros (NYC, LA, Chicago). Uses miles=50,
+           pageSize=100 per call. Deduplicates by organizationId.
+
+Parse    : All data in the search response — no profile page visits needed.
+           Converts list-type fields to comma-separated strings.
+
+           Extra metro anchors — a single state-center point misses
+           thousands of members concentrated in dense urban areas.
 """
 
 import sys

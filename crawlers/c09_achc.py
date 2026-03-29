@@ -1,13 +1,16 @@
 """
-Crawler #9: ACHC Accredited Healthcare Facility Providers (HFAP)
-Source:     https://achc.org/search-facilities/
-API:        https://compass-api.achc.org/api/Anonymous/GetPublicLocations/{program}
+Crawler 09 — ACHC Accredited Healthcare Providers
+Source   : https://compass-api.achc.org/api/Anonymous/GetPublicLocations/
+Records  : ~600 | US
 
-ACHC (Accreditation Commission for Health Care) — HFAP division accredits:
-  Acute Care Hospitals, Critical Access Hospitals, Ambulatory Surgery Centers,
-  Labs, Stroke Centres, Joint Replacement Programmes, Office-Based Surgery,
-  In-Home Hospital Care, Lithotripsy centres, and International Hospitals.
+Fetch    : Calls the ACHC Compass API once per accreditation program type
+           (acute care, ambulatory surgery, labs, etc). Merges all results.
 
+Parse    : Extracts facility name, address, program type, expiry date.
+           Calculates days_until_expiry from today for each facility.
+
+           days_until_expiry turns a static list into pipeline intelligence
+           — vendors know exactly when a facility's renewal window opens.
 """
 
 import sys

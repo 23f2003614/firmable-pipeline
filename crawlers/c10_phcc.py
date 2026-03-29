@@ -1,10 +1,17 @@
 """
-Crawler #10: PHCC — Plumbing-Heating-Cooling Contractors Association
-Source  : https://www.phccweb.org/tools-resources/find-a-contractor/
-Method  : WordPress AJAX endpoint (action=phcc_contractor_finder) queried
-          by zip code across all 51 US state-capital zip codes.
-          Each response is a JSON list of contractor objects.
+Crawler 10 — PHCC Plumbing-Heating-Cooling Contractors
+Source   : https://www.phccweb.org/tools-resources/find-a-contractor/
+Records  : ~1,845 | US
 
+Fetch    : Loads the main page first to acquire session cookies (WordPress
+           AJAX silently fails without them), then POSTs to the contractor
+           finder endpoint with zip codes from all 51 US state capitals.
+
+Parse    : Each JSON response is a list of contractor objects. Extracts
+           company name, address, phone, website, membership type.
+
+           Session warm-up trick — mimics a real browser visit to get
+           the cookies that make the AJAX endpoint respond correctly.
 """
 
 import sys, os, re, time

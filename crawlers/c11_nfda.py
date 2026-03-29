@@ -1,10 +1,18 @@
 """
-Crawler #01 — NFDA Member Funeral Homes (United States)
-================================================================================
+Crawler 11 — NFDA Member Funeral Homes
 Source   : https://rallocator.nfda.org/
+Records  : ~7,255 | US
 
+Fetch    : No "get all" endpoint exists. Covers the US with 46 geographic
+           anchor points at 250-mile radius each — overlapping circles
+           ensure no area is missed.
 
-STRATEGY: ~46 US grid points x 250mi radius, dedup by GUID data-id.
+Parse    : BeautifulSoup finds all li.xmp-location-listing elements.
+           Deduplicates by unique GUID data-id attribute on each listing
+           to remove overlaps from adjacent grid circles.
+
+           GUID deduplication — the same funeral home appears in multiple
+           radius queries. The data-id is the only reliable unique key.
 """
 
 from __future__ import annotations

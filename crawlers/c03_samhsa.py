@@ -1,31 +1,18 @@
 """
-Crawler #3: SAMHSA Treatment Facility Locator
-Source : https://findtreatment.gov
-API    : https://findtreatment.gov/locator/exportsAsJson/v2
-~17,000+ facilities across all US states + DC + territories.
+Crawler 03 — SAMHSA Substance Use Treatment Facilities
+Source   : https://findtreatment.gov/locator/exportsAsJson/v2
+Records  : ~17,800 | US + territories
 
-Key improvements over v1:
-  - Uses limitType=0 (state-exact search) instead of 500-mile radius,
-    completely eliminating cross-state record overlap / duplicates.
-  - Captures ALL available service-code fields from the API:
-      TC   Type of Care
-      SET  Service Setting
-      PAY  Payment / Insurance Accepted
-      SG   Special Programs / Groups Offered
-      SL   Language Services
-      FOP  Facility Operation
-      AGE  Age Groups Accepted          ← NEW
-      EMS  Emergency Mental Health Svcs ← NEW
-      PYAS Payment Assistance Available ← NEW
-  - Captures top-level fields:
-      type_facility  (SA / MH / both)   ← NEW
-      latitude / longitude              ← NEW (enables geo queries)
-      intake_phone   (intake hotline)   ← NEW (separate from main phone)
-      hotline        (crisis hotline)   ← NEW
-      address2       (street line 2)    ← NEW
-  - pageSize=200 (max safe) instead of 100 — cuts API calls in half.
-  - Thread-safe, state-partitioned, dedup by name+address+state.
+Fetch    : Calls the JSON API once per US state using limitType=0 (exact
+           state match). All 50+ state calls run in parallel threads.
+
+Parse    : Decodes service-code fields (TC, PAY, SG, SL, AGE) from compact
+           codes into readable text — e.g. TC="SA" → "Substance Abuse".
+
+           Per-state exact queries eliminate cross-border duplicate overlap.
+           Parallel threading cuts total runtime from ~15 min to ~2 min.
 """
+
 
 import sys, os, time
 from concurrent.futures import ThreadPoolExecutor, as_completed

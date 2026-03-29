@@ -1,8 +1,17 @@
 """
-Crawler #5 — ASLA FirmFinder (American Society of Landscape Architects)
-Source  : https://connect.asla.org/search?ListingType=FirmFinder
+Crawler 05 — ASLA Landscape Architecture Firms (FirmFinder)
+Source   : https://connect.asla.org/search?ListingType=FirmFinder
+Records  : ~1,380 | US
 
+Fetch    : A-to-Z alphabet sweep on ASLA's member search API — each letter
+           returns firms whose name starts with it. Guarantees full coverage
+           even when the API limits results per query.
 
+Parse    : Each response is HTML card fragments. BeautifulSoup extracts
+           firm name, location, website, and specialties from each card.
+
+           Alphabet sweep pattern is reusable across any association site
+           that caps per-query results — not just ASLA.
 """
 
 import sys, os, re, time, string

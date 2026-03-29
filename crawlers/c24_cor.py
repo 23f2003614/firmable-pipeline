@@ -1,13 +1,17 @@
 """
-Crawler #24 — COR-Certified Employers (Canada)
-===============================================
-Dataset   : Certificate of Recognition (COR) Certified Employers — Canada
-Sources   :
-  1. Alberta Government (OHS) — Daily-updated XLS of all Alberta COR holders
-     https://extern.labour.alberta.ca/cor-listing/ohs-employers-with-cor.xlsx
-  2. Ontario IHSA — Public PDF of all Ontario COR-certified members
-     https://www.ihsa.ca/pdfs/cor/ihsa-cor-certified-members.pdf
+Crawler 24 — COR Certified Employers (Canada)
+Sources  : Alberta govt XLS (daily-updated) + Ontario IHSA PDF
+Records  : ~9,713 | Alberta + Ontario
 
+Fetch    : Two separate bulk downloads — Alberta government's daily XLS
+           and Ontario IHSA's PDF of COR-certified members.
+
+Parse    : Alberta: openpyxl reads Excel rows. Ontario: text extracted
+           from PDF and parsed row by row. Both unified into one record
+           list with a province field for downstream filtering.
+
+           Two provinces, two formats, one schema — heterogeneous source
+           normalization is real data engineering, not just scraping.
 """
 
 import io

@@ -1,10 +1,16 @@
 """
-Crawler #14 – US Colocation & Data Center Facilities (PeeringDB)
-=================================================================
-Source    : https://www.peeringdb.com/api/fac?country=US&status=ok
-Table     : peeringdb_us_facilities
-Country   : United States
+Crawler 14 — US Colocation & Data Center Facilities (PeeringDB)
+Source   : https://www.peeringdb.com/api/fac?country=US&status=ok
+Records  : ~1,367 | US
 
+Fetch    : Paginates through PeeringDB's public REST API — no auth,
+           no rate limits. Fetches pages until response is empty.
+
+Parse    : Maps PeeringDB fields to schema. Extracts facility name,
+           address, org name, net_count, ix_count, policy type, tech email.
+
+           Cleanest API in the project — fully open, no tricks required.
+           Authoritative internet infrastructure data, completely free.
 """
 
 import os

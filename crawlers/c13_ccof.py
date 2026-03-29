@@ -1,14 +1,17 @@
 """
-Crawler #13 — CCOF Certified Organic Operators (US)
-Source  : https://ccof.org/directory-member/{slug}/
-Sitemap : https://ccof.org/wp-sitemap-posts-directory-member-{N}.xml
+Crawler 13 — CCOF Certified Organic Operators
+Source   : https://ccof.org/directory-member/{slug}/
+Records  : ~8,950 | US (California-dominant)
 
-Strategy:
-  Step 1 — Pull all /directory-member/ slugs from WordPress XML sitemaps
-            (ccof.org/wp-sitemap-posts-directory-member-1.xml, -2.xml, …)
-  Step 2 — For each slug, fetch the SSR detail page and parse structured
-            fields directly from the rendered HTML.
+Fetch    : Step 1 — enumerates all member URL slugs from WordPress XML
+           sitemaps (auto-generated index of every member page).
+           Step 2 — fetches all detail pages in parallel threads.
 
+Parse    : BeautifulSoup parses each SSR detail page. Extracts company
+           name, certification type, scope, certified products, address.
+
+           WordPress sitemap trick — complete member index in one XML
+           file instead of scraping paginated listing pages.
 """
 
 import re

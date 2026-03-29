@@ -1,11 +1,17 @@
 """
-Crawler #20: NPMA — National Pest Management Association
-             PestWorld Find-A-Pro Directory
-Source  : https://www.pestworld.org/find-local-exterminators/
+Crawler 20 — NPMA Pest Management Member Directory
+Source   : https://www.pestworld.org/find-local-exterminators/
+Records  : ~1,210 | US
 
-Method  : Playwright (headless Chromium) — server-side rendered HTML.
-          Dense ZIP grid (~800 ZIPs) for full US coverage.
+Fetch    : Playwright (headless Chromium) — site is fully JS-rendered,
+           regular requests return no data. Sweeps ~800 zip codes with
+           network-idle wait after each search.
 
+Parse    : BeautifulSoup parses rendered HTML. Extracts company name,
+           address, phone, website. Maps full state names to abbreviations.
+
+           Playwright's network-idle wait ensures the page has truly
+           finished all async calls — more reliable than fixed sleep timers.
 """
 
 import sys, os, re, time

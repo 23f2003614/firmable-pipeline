@@ -1,12 +1,17 @@
 """
-Crawler #16: ASA — American Staffing Association Member Directory
-Source  : https://americanstaffing.net/asa-member-directory/
-Method  : GET https://americanstaffing.net/?json=1&search_type=listing
-            &search_by=location&location=LAT,LNG&bounds=...&address=STATE
-          
+Crawler 16 — ASA Staffing Agency Member Directory
+Source   : https://americanstaffing.net/asa-member-directory/
+Records  : ~9,240 | US
 
-Records : ~8,000+ staffing agency branch offices across all 50 US states + DC
+Fetch    : curl_cffi (Chrome fingerprint) calls the ASA member API with
+           bounding box coordinates for all 50 states + DC.
 
+Parse    : Builds per-office records. Second pass counts states per company
+           and sets multi_state_presence flag for downstream segmentation.
+
+           multi_state_presence flag — a 15-state national agency is a
+           different buyer than a local shop. No other free source
+           makes this distinction.
 """
 
 import sys, os, time, re

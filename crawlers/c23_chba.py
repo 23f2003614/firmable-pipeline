@@ -1,16 +1,17 @@
 """
-Crawler #23: CHBA — Canadian Home Builders' Association Member Directory
-Source  : https://hub.chba.ca/member-directory
-          (~8,500 member companies across Canada, public directory)
+Crawler 23 — CHBA Canadian Home Builders' Association (Canada)
+Source   : https://hub.chba.ca/member-directory
+Records  : ~8,432 | Canada
 
-Method  : Higher Logic membership platform.
-          Alphabetical listing endpoint:
-            GET https://hub.chba.ca/member-directory/FindStartsWith?term=A
-          Returns HTML with member cards for names starting with A.
-          We loop A–Z + 0–9 to cover every member.
+Fetch    : Higher Logic membership platform — FindStartsWith endpoint
+           returns members by first letter. Loops A-Z then 0-9 (36
+           total requests) for complete member coverage.
 
-Records : ~8,500 Canadian home builders, renovators, trade contractors
+Parse    : BeautifulSoup parses HTML member cards. Extracts company name,
+           city, province, website, phone from each card element.
 
+           A-Z + 0-9 sweep on Higher Logic is reusable across hundreds
+           of associations worldwide that run on this platform.
 """
 
 import sys, os, re, string

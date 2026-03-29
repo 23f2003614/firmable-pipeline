@@ -1,12 +1,17 @@
 """
-Crawler #12: NATE — North American Technician Excellence
-Source  : https://natex.org/homeowner/find-a-contractor-with-nate-certified-technicians/
-Method  : POST to Meazure Learning API (zip-code locator, confirmed via DevTools)
-API     : https://assessments.meazurelearning.com/Connect/NATE/Foundation/api/LocationSearchC3Search
+Crawler 12 — NATE Certified HVAC Contractors
+Source   : https://assessments.meazurelearning.com/Connect/NATE/Foundation/
+Records  : ~4,077 | US
 
-Records : ~4,000–5,000 unique NATE-certified HVAC contractor companies (US-only)
+Fetch    : Hidden API endpoint discovered via Chrome DevTools Network tab —
+           not publicly documented. curl_cffi provides Chrome TLS
+           fingerprint to bypass bot detection.
 
+Parse    : JSON response. Extracts company name, address, certified
+           technician count, certification types held.
 
+           API discovery via DevTools — every search form calls an API
+           in the background. DevTools reveals the exact request format.
 """
 
 import sys

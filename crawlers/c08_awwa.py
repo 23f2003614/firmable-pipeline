@@ -1,16 +1,17 @@
 """
-Crawler #8 — US Public Water Utilities (EPA SDWIS / Envirofacts)
-=================================================================
-Source  : EPA Envirofacts WATER_SYSTEM table (SDWIS/Fed)
-API     : https://data.epa.gov/efservice/WATER_SYSTEM/
-Docs    : https://www.epa.gov/enviro/envirofacts-data-service-api-v1
+Crawler 08 — US Public Water Utilities (EPA SDWIS / Envirofacts)
+Source   : https://data.epa.gov/efservice/WATER_SYSTEM/
+Records  : ~950 | US
 
-Strategy
---------
-• Query Envirofacts CSV per US state  — fast, reliable, no auth needed
-• Filter active CWS in Python         — single-column URL is stable
-• 50 states crawled sequentially; MAX_RECORDS caps for demo runs
+Fetch    : EPA Envirofacts REST API queried per US state — 50 calls,
+           each returning a CSV of all water systems. No auth required.
 
+Parse    : Filters to active Community Water Systems only (PWS_TYPE=CWS,
+           activity=A). Maps EPA column names to schema. Extracts
+           population served, water source type, system size.
+
+           Official federal data — free, always current, no authentication.
+           Per-state queries avoid complex multi-filter URL construction.
 """
 
 import sys
